@@ -76,6 +76,9 @@ main() {
     echo "####################### `date` #######################"
     copy_files ${day}
   done
+
+  echo
+  echo "# √ All files copied."
 }
 
 main
