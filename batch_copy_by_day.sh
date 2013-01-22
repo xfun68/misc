@@ -34,14 +34,21 @@ file_size() {
   echo $(du -sh $filename | awk '{print $1}')
 }
 
+copy_single_file() {
+  local filename="$1"
+  local size=$(file_size $file)
+
+  printf '# Copyed %6s %s\n' $size $filename
+  cp $filename $TO_DIR
+}
+
 copy_files() {
   local files=$(find ${FROM_DIR} -name "*${1}*.csv")
 
   echo "####################### `date` #######################"
 
   for file in $files; do
-    printf '# Copyed %6s %s\n' $(file_size $file) ${file}
-    cp ${file} ${TO_DIR}
+    copy_single_file $file
   done
 }
 
