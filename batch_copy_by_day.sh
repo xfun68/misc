@@ -8,7 +8,7 @@ INTERVAL=10
 ALL_DAYS=`/bin/ls $FROM_DIR | cut -b 14-21 | sort -u`
 
 
-wait_until_all_files_are_imported() {
+wait_until_all_existing_files_are_imported() {
   while [ "$(any_files_still_not_imported)" == 'true' ]; do
     sleep $INTERVAL
   done
@@ -54,7 +54,7 @@ copy_files() {
 
 main() {
   for day in $ALL_DAYS; do
-    wait_until_all_files_are_imported
+    wait_until_all_existing_files_are_imported
     copy_files ${day}
   done
 }
