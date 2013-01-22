@@ -29,13 +29,18 @@ any_files_still_not_imported() {
   fi
 }
 
+file_size() {
+  local filename=$1
+  echo $(du -sh $filename | awk '{print $1}')
+}
+
 copy_files() {
   local files=$(find ${FROM_DIR} -name "*${1}*.csv")
 
   echo "####################### `date` #######################"
 
   for file in $files; do
-    echo "# Copyed '${file}' to '${TO_DIR}'"
+    echo "# Copyed $(file_size $file) '${file}'"
     cp ${file} ${TO_DIR}
   done
 }
