@@ -1,0 +1,2 @@
+#! Version:1.0; Type:POIs; Batch_ID: 2012/04/28 #B1; datarowcount: 2; Initiator_Email: FltWebTelematics@ge.com
+OperationType,TenantID,LevelID,POIID,POIType,IsStartEndLocation,POILabel,ParentLevels,Address,Latitude,Longitude,MatchQuality,GeofenceRadiusMeters,ExpectedDurationMinutes
