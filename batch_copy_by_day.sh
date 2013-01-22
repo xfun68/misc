@@ -45,8 +45,6 @@ copy_single_file() {
 copy_files() {
   local files=$(find ${FROM_DIR} -name "*${1}*.csv")
 
-  echo "####################### `date` #######################"
-
   for file in $files; do
     copy_single_file $file
   done
@@ -55,6 +53,7 @@ copy_files() {
 main() {
   for day in $ALL_DAYS; do
     wait_until_all_existing_files_are_imported
+    echo "####################### `date` #######################"
     copy_files ${day}
   done
 }
