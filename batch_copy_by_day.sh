@@ -40,7 +40,7 @@ copy_files() {
   echo "####################### `date` #######################"
 
   for file in $files; do
-    echo "# Copyed $(file_size $file) '${file}'"
+    printf '# Copyed %6s %s\n' $(file_size $file) ${file}
     cp ${file} ${TO_DIR}
   done
 }
