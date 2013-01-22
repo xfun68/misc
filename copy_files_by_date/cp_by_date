@@ -6,7 +6,7 @@ TO_DIR="$2"
 INTERVAL=10
 
 all_days() {
-  echo `/bin/ls $FROM_DIR | egrep -v '\.errors\.csv' | cut -b 14-21 | sort -u`
+  echo `/bin/ls $FROM_DIR | egrep -v '\.errors\.csv' | egrep -o '20(0[0-9]|\d{2})[.\_-]?\d{2}[.\_-]?\d{2}' | sort -u`
 }
 
 wait_until_all_existing_files_are_imported() {
@@ -28,6 +28,22 @@ any_files_still_not_imported() {
   else
     echo 'false'
   fi
+}
+
+if_already_imported() {
+  local date="$1"
+
+  for imported_day in $(imported_days); do
+    if [ "$date" == "$imported_day" ]; then
+      echo 'true' && return
+    fi
+  done
+
+  echo 'false'
+}
+
+imported_days() {
+  echo `/bin/ls $TO_DIR | egrep '\.errors\.csv' | egrep -o '20(0[0-9]|\d{2})[.\_-]?\d{2}[.\_-]?\d{2}' | sort -u`
 }
 
 file_size() {
@@ -54,6 +70,9 @@ copy_files() {
 main() {
   for day in $(all_days); do
     wait_until_all_existing_files_are_imported
+
+    [ $(if_already_imported $day) == "true" ] && continue
+
     echo "####################### `date` #######################"
     copy_files ${day}
   done
