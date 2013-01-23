@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# cat  20130109-GEFS-01005646-Trips.csv   | grep '2013-01-08' | cut -d ',' -f 1 | sort | uniq -c
+
+[ $# -ne 1 ] && echo 'Usage: invalid_data <day>' && exit 1
+
+day="$1"
+yesterday=$(( day - 1 ))
+
+format_day() {
+  printf '%02d' $@
+}
+
+cat 201301$(format_day $day)-GEFS-01005646-Trips.csv | grep "\"A\",.*2013-01-$(format_day $yesterday)" | cut -d ',' -f 1,4,7,13,14
+
