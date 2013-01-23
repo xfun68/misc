@@ -5,8 +5,10 @@ TO_DIR="$2"
 
 INTERVAL=10
 
+DATE_FORMAT_REGEX='20[0-9]{2}[.\_-]?[0-9]{2}[.\_-]?[0-9]{2}'
+
 all_days() {
-  echo `/bin/ls $FROM_DIR | egrep -v '\.errors\.csv' | egrep -o '20(0[0-9]|\d{2})[.\_-]?\d{2}[.\_-]?\d{2}' | sort -u`
+  echo `/bin/ls $FROM_DIR | egrep -v '\.errors\.csv' | egrep -o "${DATE_FORMAT_REGEX}" | sort -u`
 }
 
 wait_until_all_existing_files_are_imported() {
@@ -43,7 +45,7 @@ if_already_imported() {
 }
 
 imported_days() {
-  echo `/bin/ls $TO_DIR | egrep '\.errors\.csv' | egrep -o '20(0[0-9]|\d{2})[.\_-]?\d{2}[.\_-]?\d{2}' | sort -u`
+  echo `/bin/ls $TO_DIR | egrep '\.errors\.csv' | egrep -o "${DATE_FORMAT_REGEX}" | sort -u`
 }
 
 file_size() {
