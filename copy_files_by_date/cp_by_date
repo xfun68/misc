@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+[ $# -ne 2 ] && echo 'Usage: cp_by_date <FROM_DIR> <TO_DIR>' && exit 1
+
 FROM_DIR="$1"
 TO_DIR="$2"
 
@@ -69,7 +71,20 @@ copy_files() {
   done
 }
 
+show_error_and_exit() {
+  local errors="$@"
+  echo "$errors"
+  exit 1
+}
+
+validate() {
+  ([ -n "$FROM_DIR" ] && [ -d "$FROM_DIR" ]) || show_error_and_exit "# ERROR: From dir '$FROM_DIR' does not exist."
+  ([ -n "$TO_DIR" ] && [ -d "$TO_DIR" ]) || show_error_and_exit "# ERROR: To dir '$TO_DIR' does not exist."
+}
+
 main() {
+  validate
+
   for day in $(all_days); do
     wait_until_all_existing_files_are_imported
 
