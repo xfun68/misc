@@ -20,8 +20,8 @@ wait_until_all_existing_files_are_imported() {
 }
 
 any_files_still_not_imported() {
-  local total_data_files_number=$(find $TO_DIR -name "*.csv" | egrep -v '\.errors\.csv' | wc -l)
-  local total_imported_files_number=$(find $TO_DIR -name "*.csv" | egrep '\.errors\.csv' | wc -l)
+  local total_data_files_number=$(find $TO_DIR -maxdepth 1 -name "*.csv" | egrep -v '\.errors\.csv' | wc -l)
+  local total_imported_files_number=$(find $TO_DIR -maxdepth 1 -name "*.csv" | egrep '\.errors\.csv' | wc -l)
 
   if [ -z "${total_data_files_number}" ]; then
     echo 'false'
